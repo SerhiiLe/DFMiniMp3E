@@ -60,7 +60,7 @@ public:
 		_serial = &stream;
 
 		if (doReset) {
-			reset();
+			reset(timeout);
 		}
 		return _isOnline;
 	}
@@ -394,6 +394,10 @@ private:
 #endif
 	queueSimple_t<reply_t> _queueNotifications;
 
+	#ifdef DFMiniMp3_Thread_Safe
+	SemaphoreHandle_t mp3Mutex = xSemaphoreCreateMutex();
+	#endif
+
 	void appendNotification(reply_t reply)
 	{
 		// store the notification for later calling so
@@ -559,6 +563,10 @@ private:
 #ifdef DfMiniMp3Debug
 		_inTransaction++;
 #endif
+		#ifdef DFMiniMp3_Thread_Safe
+		xSemaphoreTake(mp3Mutex, pdMS_TO_TICKS(c_AckTimeout));
+		#endif
+
 		if (T_CHIP_VARIANT::commandSupportsAck(command))
 		{
 			// with ack support, 
@@ -585,6 +593,11 @@ private:
 				retries--;
 			} while (reply.command == Mp3_Replies_Error && retries);
 		}
+
+		#ifdef DFMiniMp3_Thread_Safe
+		xSemaphoreGive(mp3Mutex);
+		#endif
+
 #ifdef DfMiniMp3Debug
 		_inTransaction--;
 #endif

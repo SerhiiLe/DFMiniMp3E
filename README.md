@@ -8,6 +8,18 @@ This is a copy of the project [Makuna/DFMiniMp3](https://github.com/Makuna/DFMin
 
 There are some minor changes compared to the original.
 
+### Before #include <DFMiniMp3E.h>
+
+If you use FreeRTOS and multiple threads (for example on ESP32)  
+```cpp
+#define DFMiniMp3_Thread_Safe
+```
+
+For DEBUG only  
+```cpp
+#define DfMiniMp3Debug
+```
+
 ## Construction and Template Arguments
 
 The constructor will require the declaration of several template arguments that specialize the class to the sketch writer's needs.  Some of these class types are provided and some are required by the user to provide.
@@ -21,7 +33,7 @@ _C_ACK_TIMEOUT_ - (optional) the value in milliseconds to use for serial timeout
 The following example uses the user provided callback class named `Mp3Callbacks`.  
 
 ```cpp
-typedef DFMiniMp3<HardwareSerial, Mp3Callbacks> mp3;
+typedef DFMiniMp3<Mp3Callbacks> mp3;
 ```
 
 The following example uses the user provided callback class named `Mp3Callbacks` specialized for the MH2024K16SS chip.  
