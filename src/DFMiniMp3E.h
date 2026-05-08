@@ -394,9 +394,9 @@ private:
 #endif
 	queueSimple_t<reply_t> _queueNotifications;
 
-	#ifdef DFMiniMp3_Thread_Safe
+#ifdef DFMiniMp3_Thread_Safe
 	SemaphoreHandle_t mp3Mutex = xSemaphoreCreateMutex();
-	#endif
+#endif
 
 	void appendNotification(reply_t reply)
 	{
@@ -563,9 +563,10 @@ private:
 #ifdef DfMiniMp3Debug
 		_inTransaction++;
 #endif
-		#ifdef DFMiniMp3_Thread_Safe
+
+#ifdef DFMiniMp3_Thread_Safe
 		xSemaphoreTake(mp3Mutex, pdMS_TO_TICKS(c_AckTimeout));
-		#endif
+#endif
 
 		if (T_CHIP_VARIANT::commandSupportsAck(command))
 		{
@@ -594,9 +595,9 @@ private:
 			} while (reply.command == Mp3_Replies_Error && retries);
 		}
 
-		#ifdef DFMiniMp3_Thread_Safe
+#ifdef DFMiniMp3_Thread_Safe
 		xSemaphoreGive(mp3Mutex);
-		#endif
+#endif
 
 #ifdef DfMiniMp3Debug
 		_inTransaction--;

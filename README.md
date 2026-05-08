@@ -17,7 +17,7 @@ If you use FreeRTOS and multiple threads (for example on ESP32)
 
 For DEBUG only  
 ```cpp
-#define DfMiniMp3Debug
+#define DfMiniMp3Debug Serial
 ```
 
 ## Construction and Template Arguments
