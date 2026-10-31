@@ -95,12 +95,12 @@ void setup()
   DebugOut.begin(115200);
   
   // serial port initialization
-  #if defined(ESP32)
-  mp3Serial.begin(9600, SERIAL_8N1, MP3_RX_PIN, MP3_TX_PIN);
-  #else
+  #if defined(ESP8266)
   mp3Serial.begin(9600);
   // or if use EspSoftwareSerial and PlatformIO:
   // mp3Serial.begin(9600, SWSERIAL_8N1, MP3_RX_PIN, MP3_TX_PIN, false);
+  #else
+  mp3Serial.begin(9600, SERIAL_8N1, MP3_RX_PIN, MP3_TX_PIN);
   #endif
   
   if (!mp3.begin(mp3Serial, /*doReset = */true, /*timeout = */2000)) {  //Use serial to communicate with mp3.
