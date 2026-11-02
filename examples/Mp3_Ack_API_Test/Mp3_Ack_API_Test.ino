@@ -95,11 +95,11 @@ void setup()
   DebugOut.begin(115200);
   
   // serial port initialization
-  #if defined(ESP8266)
+  #if (defined(ARDUINO_AVR_UNO) || defined(ESP8266))   // Using a soft serial port
   mp3Serial.begin(9600);
   // or if use EspSoftwareSerial and PlatformIO:
   // mp3Serial.begin(9600, SWSERIAL_8N1, MP3_RX_PIN, MP3_TX_PIN, false);
-  #else
+  #else // esp32
   mp3Serial.begin(9600, SERIAL_8N1, MP3_RX_PIN, MP3_TX_PIN);
   #endif
   
